@@ -2,7 +2,7 @@
 //using namespace std;
 using std::cin;
 using std::cout;
-const int primer = 14997;
+const int primer = 100000;
 
 class HashTable
 {
@@ -45,9 +45,9 @@ int main()
 {	memset(&hash, 0, sizeof(hash));//对hash表实现初始化
 	int n = 0;
 	cin>>n;
+	int find = 0;
 	while(n--){
 		//int snow[6];
-		int find = 0;
 		int key=0;
 		HashTable *temp = new HashTable;
 		for(int j = 0; j < 6; ++j){
@@ -60,26 +60,24 @@ int main()
 			continue;
 		}
 		else{
-			HashTable *temp1 = hash[key];
-			while(temp1 -> next){	//查找hash表的下一项，直到hash->next!=0
-				if(compare(temp1 -> snow_t, temp -> snow_t)){
+			HashTable *p = hash[key];
+			while(p!=0){	//查找hash表的下一项，直到hash->next!=0
+				if(compare(p-> snow_t, temp -> snow_t)){
 					find = 1;
 					break;
 				}
-				else temp1 = hash[key] -> next;	
+				else p = p -> next;	
 			}
-			if(compare(temp1 -> snow_t,temp -> snow_t))
-					find = 1;
-			if(find == 1){
-				cout << "Twin snowflakes found.";
-				break;
-			}	
-			temp1 -> next = new HashTable;
-			temp1 -> next =temp;
+			temp -> next = hash[key];
+			hash[key] = temp;
 		}
-		if(find == 0)
-			cout<<"No two snowflakes are alike.";
+		if(find == 1){
+			cout << "Twin snowflakes found.";
+			break;
+		}
 	}	
+	if(find == 0)
+		cout<<"No two snowflakes are alike.";
 	system("PAUSE");
 	return 0;
 }
